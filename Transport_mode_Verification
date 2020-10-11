@@ -65,10 +65,9 @@ int readRFID()
     //Once Hardware is Available - connect and read value from there 
     
     int input;
-    cout<< "\nEnter a 10 digit(digits 1-4 is person ID, digits 5-8 is specific vehicle ID, digit 9 is transporation mode(1,2, or 3)) student RFID: ";
+    cout<< "\nEnter a 10 digit code - \n  digits 1-4 - person ID\n  digits 5-8 - specific vehicle ID\n  digit 9 - transporation mode \nstudent RFID: ";
     cin>>input;
-    return input;
     
-    //int random_number = ((rand() % 999999993) + 100000001);
-    //return random_number; // generate random RFID code
+    return input; 
+    
 }
