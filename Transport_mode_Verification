@@ -1,0 +1,74 @@
+// See if student is at the correct station (bus,car, or pedestrian) 
+// based on student's passive RFID Student ID
+#include<iostream>
+
+using namespace std;
+int readRFID();
+void notify_teacher(int Person_Id, int Specific_Vehicle);
+
+int main(){
+     int person_id, transport_mode,specific_vehicle, RFID, stop_process,transport_mode_station = 0;
+     int num_iterations = 0;
+     
+     cout<<"Enter the number of times this process should be repeated:";
+     cin >> stop_process; 
+     cout<<endl;
+     
+     cout<<"Enter which station this is:";
+     cin >> transport_mode_station; 
+     cout<<endl;
+
+do 
+{
+// Your application source file 
+    RFID = readRFID();
+    person_id = RFID / 100000 ; // 1-4 digits
+    specific_vehicle = (RFID % 100000) / 10 ; // 5-9 digits 
+    transport_mode = RFID % 10; // last digit of RFID tag 
+                                        // [1,2,3] = [bus,car,pedestrian]
+    
+    if(transport_mode != transport_mode_station) // kid is in the wrong place
+    {
+        notify_teacher(person_id, transport_mode);
+    }
+    
+    num_iterations = num_iterations + 1; // count iterations
+    
+} while (num_iterations < stop_process); 
+
+    return 0;
+}
+
+//Function to notify the teacher about the misplaced student
+void notify_teacher(int person_id, int transport_mode)
+{
+    cout<<"\nThe student misplaced in the wrong transport : "<<person_id<<endl;
+    cout<<"\nThey should be transported by : ";
+    //[1,2,3] = [bus,car,pedestrian]
+    if (transport_mode == 1 ){
+        cout<<"bus"<<endl;
+    }
+    else if (transport_mode == 2 ){
+        cout<<"car"<<endl;
+    }
+    else if (transport_mode == 3 ){
+        cout<<"walking/biking"<<endl;
+    }
+    else{
+        cout<<"RFID Error"<<endl;
+    }
+}
+
+int readRFID()
+{
+    //return 368547753; 
+    //Once Hardware is Available - connect and read value from there 
+    
+    int input;
+    cout<< "\nEnter a 10 digit(digits 1-4 is person ID, digits 5-8 is specific vehicle ID, digit 9 is transporation mode(1,2, or 3)) student RFID: ";
+    cin>>input;
+    return input;
+    
+    //int random_number = ((rand() % 999999993) + 100000001);
+    //return random_number; // generate random RFID code
+}
