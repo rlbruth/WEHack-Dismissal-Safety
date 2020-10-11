@@ -31,7 +31,10 @@ do
     {
         notify_teacher(person_id, transport_mode);
     }
-    
+    else
+    {
+          cout<<"The student successfuly reached the desired transportation mode"<<endl;
+     }
     num_iterations = num_iterations + 1; // count iterations
     
 } while (num_iterations < stop_process); 
@@ -67,6 +70,8 @@ int readRFID()
     int input;
     cout<< "\nEnter a 10 digit code - \n  digits 1-4 - person ID\n  digits 5-8 - specific vehicle ID\n  digit 9 - transporation mode \nstudent RFID: ";
     cin>>input;
+    
+    cout<<endl;
     
     return input; 
     
