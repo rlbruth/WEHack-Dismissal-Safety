@@ -1,0 +1,84 @@
+// See if student is at the correct station (bus,car, or pedestrian) 
+// based on student's passive RFID Student ID
+#include<iostream>
+
+using namespace std;
+int readRFID();
+void notify_teacher(int Person_Id, int Specific_Vehicle);
+int read_barcode();
+void opengate();
+
+int main()
+{
+     int person_id, transport_mode,specific_vehicle, RFID, stop_process,specific_vehicle_code,transport_mode_station = 0;
+     int num_iterations = 0;
+     
+     cout<<"Enter the number of times this process should be repeated:";
+     cin >> stop_process; 
+     cout<<endl;
+
+do 
+{
+// Your application source file 
+    specific_vehicle_code = read_barcode();
+    
+    cout<<"Calling Number: "<<specific_vehicle_code<<endl;
+
+    RFID = readRFID();
+    person_id = RFID / 100000 ; // 1-4 digits
+    specific_vehicle = (RFID % 100000) / 10 ; // 5-8 digits
+    transport_mode = RFID % 10; // last digit of RFID tag 
+                                        // [1,2,3] = [bus,car,pedestrian]
+    
+    if(specific_vehicle != specific_vehicle_code) // wrong kid for the car
+    {
+        notify_teacher(person_id, specific_vehicle);
+    }
+    else
+    {
+        opengate();
+    }
+    
+    num_iterations = num_iterations + 1; // count iterations
+    
+} while (num_iterations < stop_process); 
+
+    return 0;
+}
+
+int read_barcode()
+{
+    // read barcode - hardware required so user input for testing
+
+    int input; 
+    cout<<"\nEnter a 4 digit Vehicle Sticker Barcode Number: ";
+    cin>>input;
+    
+    return input;
+}
+//Function to open the gate to access the specific vehicle
+void opengate()
+{
+    // send PWM signal to servo to allow turnstile to rotate one time
+    cout<<"Gate Open!"<<endl;
+}
+
+
+//Function to notify the teacher about the misplaced student
+void notify_teacher(int person_id, int specific_vehicle)
+{
+    cout<<"\nThe student( "<<person_id<< ") vehicle ID does not match "<<endl;
+    cout<<"\nThey should be transported by vehicle: "<<specific_vehicle<<endl;
+}
+
+//Function to read the RFID of the student
+int readRFID()
+{
+    //Once Hardware is Available - connect and read value from there - use user input for testing
+    
+    int input;
+    cout<< "\nEnter a 10 digit code - \n  digits 1-4 - person ID\n  digits 5-8 - specific vehicle ID\n  digit 9 - transporation mode \nstudent RFID: ";
+    cin>>input;
+    
+    return input; 
+}
